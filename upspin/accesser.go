@@ -48,13 +48,7 @@ func (a *Accesser) List(path string) ([]*album.Album, error) {
 }
 
 func (a *Accesser) canRead(entry *upspin.DirEntry) bool {
-	f, err := a.Open(entry.Name)
-	if err != nil {
-		// we cannot access this file
-		return false
-	}
-	f.Close()
-	return true
+	return len(entry.Blocks) > 0
 }
 
 func (a *Accesser) Get(path string) (io.Reader, error) {
