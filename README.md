@@ -1,5 +1,9 @@
 A music player for Upspin
 
+It recursively browse an upspin folder, searching for audio files and
+covers, and serve them as a webpage with a HTML5/Javascript music
+player.
+
 Run it with:
 
 ```
