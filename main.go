@@ -1,10 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 
 	"github.com/gildasch/upspin-music/album"
 	"github.com/gildasch/upspin-music/upspin"
@@ -20,11 +20,17 @@ type Accesser interface {
 }
 
 func main() {
-	cfg, err := config.FromFile(os.Args[1])
+	confPathPtr := flag.String("config", "~/upspin/config", "path to the upspin configuration file")
+	baseURLPtr := flag.String("baseURL", "", "the base URL of the service")
+	flag.Parse()
+
+	cfg, err := config.FromFile(*confPathPtr)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+
+	baseURL := *baseURLPtr
 
 	client := client.New(cfg)
 	if client == nil {
@@ -47,7 +53,8 @@ func main() {
 		}
 
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"albums": albums,
+			"albums":  albums,
+			"baseURL": baseURL,
 		})
 	})
 
