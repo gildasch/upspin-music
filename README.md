@@ -25,3 +25,4 @@ $ go run main.go -config /path/to/your/upspin/config -baseURL https://myserver.c
 ```
 
 It uses [Aplayer music player](https://github.com/MoePlayer/APlayer)
+and [Gin Web Framework](https://github.com/gin-gonic/gin).
