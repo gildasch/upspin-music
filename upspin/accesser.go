@@ -26,13 +26,9 @@ func (a *Accesser) List(path string) ([]*album.Album, error) {
 
 	for _, entry := range entries {
 		if !entry.IsDir() {
-			f, err := a.Open(entry.Name)
-			if err != nil {
-				// we cannot access this file
+			if !a.canRead(entry) {
 				continue
 			}
-			f.Close()
-
 			currentAlbum.Add(string(entry.Name))
 			continue
 		}
@@ -49,6 +45,16 @@ func (a *Accesser) List(path string) ([]*album.Album, error) {
 	}
 
 	return albums, nil
+}
+
+func (a *Accesser) canRead(entry *upspin.DirEntry) bool {
+	f, err := a.Open(entry.Name)
+	if err != nil {
+		// we cannot access this file
+		return false
+	}
+	f.Close()
+	return true
 }
 
 func (a *Accesser) Get(path string) (io.Reader, error) {
