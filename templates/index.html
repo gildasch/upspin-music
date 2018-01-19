@@ -1,0 +1,14 @@
+<html>
+  <head>
+  </head>
+  <body>
+    {{ range $album := .albums }}
+    <img src='/get/{{ $album.Cover }}' />
+    <ul>
+      {{ range $song := $album.Songs }}
+      <li><a href='/get/{{ $song }}'>{{ $song }}</a></li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  </body>
+</html>
