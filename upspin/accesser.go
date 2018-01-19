@@ -34,6 +34,7 @@ func (a *Accesser) List(path string) ([]*album.Album, error) {
 			f.Close()
 
 			currentAlbum.Add(string(entry.Name))
+			continue
 		}
 
 		subAlbums, err := a.List(string(entry.Name))
