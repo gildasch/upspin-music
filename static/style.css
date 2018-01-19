@@ -1,0 +1,14 @@
+#albums {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-evenly;
+}
+
+#albums li {
+    list-style-type: none;
+}
+
+#albums img {
+    height:240px;
+}

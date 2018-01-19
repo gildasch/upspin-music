@@ -1,14 +1,32 @@
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script src="https://unpkg.com/aplayer"></script>
   </head>
   <body>
-    {{ range $album := .albums }}
-    <img src='/get/{{ $album.Cover }}' />
-    <ul>
-      {{ range $song := $album.Songs }}
-      <li><a href='/get/{{ $song }}'>{{ $song }}</a></li>
+    <ul id="albums">
+      {{ range $i, $album := .albums }}
+      <li><a href='#player' onclick='play(event, {{ $i }});'><img src='/get/{{ $album.Cover }}' /></a></li>
       {{ end }}
+      <li id="player" class="aplayer"></li>
     </ul>
-    {{ end }}
+
+    <script>
+      var albums = [
+      {{ range $album := .albums }}
+      [
+      {{ range $song := $album.Songs }}
+      {
+      title: '{{ $song }}'.split('/').pop(),
+      author: '',
+      url: '/get/{{ $song }}',
+      pic: '/get/{{ $album.Cover }}'
+      },
+      {{ end }}
+      ],
+      {{ end }}
+      ]
+    </script>
+    <script src='/static/app.js'></script>
   </body>
 </html>
