@@ -1,7 +1,6 @@
 package upspin
 
 import (
-	"fmt"
 	"io"
 	"strings"
 
@@ -36,13 +35,17 @@ func (a *Accesser) List(path string) ([]*album.Album, error) {
 
 			currentAlbum.Add(string(entry.Name))
 		}
+
+		subAlbums, err := a.List(string(entry.Name))
+		if err != nil {
+			continue
+		}
+		albums = append(albums, subAlbums...)
 	}
 
 	if !currentAlbum.IsEmpty() {
 		albums = append(albums, currentAlbum)
 	}
-
-	fmt.Printf("path %q, returning %#v\n", path, *albums[0])
 
 	return albums, nil
 }
