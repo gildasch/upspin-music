@@ -59,17 +59,14 @@ func main() {
 	})
 
 	router.GET("/get/*path", func(c *gin.Context) {
-		reader, err := accesser.Get(c.Param("path"))
+		reader, name, t, err := accesser.Get(c.Param("path"))
 		if err != nil {
 			fmt.Println("accesser.Get:", err)
 			c.Status(http.StatusNotFound)
 			return
 		}
 
-		c.Stream(func(w io.Writer) bool {
-			_, err := io.CopyN(w, reader, 1024*1024)
-			return err == nil
-		})
+		http.ServeContent(c.Writer, c.Request, name, t, reader)
 	})
 
 	router.Run()
